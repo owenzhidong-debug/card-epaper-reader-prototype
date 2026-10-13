@@ -609,6 +609,9 @@
       grid-template-columns: 1fr 1fr;
       gap: 20px;
     }
+    .dialog-actions.single {
+      grid-template-columns: 1fr;
+    }
     .dialog-actions button {
       height: 48px;
       border: 2px solid var(--ink);
@@ -5760,6 +5763,15 @@
         </div>
       </section>
     </div>
+    <div class="dialog-backdrop" id="fontDownloadDialog" role="dialog" aria-modal="true" aria-labelledby="fontDownloadTitle">
+      <section class="dialog">
+        <h2 class="dialog-title" id="fontDownloadTitle">Downloading</h2>
+        <p class="dialog-copy">收起面板会中断字体下载</p>
+        <div class="dialog-actions single">
+          <button type="button" class="danger" id="confirmFontDownloadDialog">OK</button>
+        </div>
+      </section>
+    </div>
     <div class="action-sheet-backdrop" id="shelfActionSheet" role="dialog" aria-modal="true" aria-label="Book actions">
       <div class="action-sheet">
         <button type="button" id="openShelfBook">Open</button>
@@ -6071,6 +6083,8 @@
     const deleteCopy = document.getElementById("deleteCopy");
     const cancelDelete = document.getElementById("cancelDelete");
     const confirmDelete = document.getElementById("confirmDelete");
+    const fontDownloadDialog = document.getElementById("fontDownloadDialog");
+    const confirmFontDownloadDialog = document.getElementById("confirmFontDownloadDialog");
     const shelfActionSheet = document.getElementById("shelfActionSheet");
     const openShelfBook = document.getElementById("openShelfBook");
     const deleteShelfBook = document.getElementById("deleteShelfBook");
@@ -7038,6 +7052,16 @@
         cloudWifiState = "connected";
         renderCloudFontList();
       }, 950);
+    }
+
+    function isCloudFontDownloading() {
+      return Object.values(cloudFontDownloads).some((state) => state?.status === "downloading");
+    }
+
+    function warnBeforeClosingCloudFontDownload() {
+      if (!isCloudFontDownloading()) return false;
+      fontDownloadDialog.classList.add("show");
+      return true;
     }
 
     function renderCloudWlanList() {
@@ -9704,10 +9728,14 @@
     centerCover.addEventListener("touchmove", cancelLongPress, { passive: true });
     cancelDelete.addEventListener("click", closeDeleteDialog);
     confirmDelete.addEventListener("click", confirmDeleteAction);
+    confirmFontDownloadDialog.addEventListener("click", () => {
+      fontDownloadDialog.classList.remove("show");
+    });
 
     readerLeft.addEventListener("click", (event) => {
       event.stopPropagation();
       if (activeReaderPanel) {
+        if (warnBeforeClosingCloudFontDownload()) return;
         showMainReaderActions();
         return;
       }
@@ -9726,6 +9754,7 @@
     readerRight.addEventListener("click", (event) => {
       event.stopPropagation();
       if (activeReaderPanel) {
+        if (warnBeforeClosingCloudFontDownload()) return;
         showMainReaderActions();
         return;
       }
@@ -9755,6 +9784,7 @@
         return;
       }
       if (activeReaderPanel) {
+        if (warnBeforeClosingCloudFontDownload()) return;
         hideReaderActions();
         return;
       }
@@ -10208,6 +10238,7 @@
     readerScreen.addEventListener("click", (event) => {
       if (event.target.closest(".reader-panel") || event.target.closest(".reader-hub-panel") || event.target.closest(".reader-action") || event.target.closest(".reader-progress") || event.target.closest(".auto-read-pill")) return;
       if (activeReaderPanel) {
+        if (warnBeforeClosingCloudFontDownload()) return;
         showMainReaderActions();
         return;
       }
