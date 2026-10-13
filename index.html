@@ -2921,7 +2921,7 @@
       top: 89px;
       right: 0;
       bottom: 72px;
-      width: 214px;
+      width: 224px;
       border-left: 3px solid var(--ink);
       background: var(--paper);
       transform: translateX(100%);
@@ -2940,12 +2940,11 @@
     }
     .shelf-panel-head {
       display: grid;
-      grid-template-columns: 40px 1fr 40px;
+      grid-template-columns: 1fr 40px;
       align-items: center;
       padding: 0 14px;
       border-bottom: 2px solid var(--ink);
     }
-    .shelf-panel-back,
     .shelf-panel-close {
       width: 40px;
       height: 40px;
@@ -2954,17 +2953,6 @@
       color: var(--ink);
       position: relative;
       padding: 0;
-    }
-    .shelf-panel-back::before {
-      content: "";
-      position: absolute;
-      left: 14px;
-      top: 12px;
-      width: 14px;
-      height: 14px;
-      border-left: 4px solid currentColor;
-      border-bottom: 4px solid currentColor;
-      transform: rotate(45deg);
     }
     .shelf-panel-close::before,
     .shelf-panel-close::after {
@@ -2983,59 +2971,98 @@
     .shelf-panel-close::after {
       transform: rotate(-45deg);
     }
-    .shelf-panel-back.hidden {
-      visibility: hidden;
-    }
     .shelf-panel-title {
       margin: 0;
-      text-align: center;
+      text-align: left;
       font-size: 28px;
       line-height: 1;
       font-weight: 760;
     }
     .shelf-panel-body {
-      padding: 16px 14px;
+      padding: 14px 14px;
       display: grid;
       align-content: start;
-      gap: 12px;
+      gap: 14px;
     }
-    .shelf-panel-row,
-    .shelf-choice {
-      min-height: 62px;
+    .shelf-section {
+      display: grid;
+      gap: 8px;
+    }
+    .shelf-section-title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1;
+      font-weight: 780;
+    }
+    .shelf-view-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+    .shelf-view-choice {
+      height: 66px;
       border: 2px solid var(--ink);
       border-radius: 8px;
       background: var(--paper);
       color: var(--ink);
       display: grid;
-      grid-template-columns: 1fr auto 20px;
+      grid-template-rows: 30px 1fr;
+      place-items: center;
+      font-family: inherit;
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 760;
+      padding: 6px 0;
+    }
+    .shelf-view-choice.active,
+    .shelf-choice.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .shelf-view-icon {
+      width: 28px;
+      height: 25px;
+      position: relative;
+      display: block;
+    }
+    .shelf-view-icon.grid::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 3px;
+      width: 7px;
+      height: 7px;
+      background: currentColor;
+      box-shadow: 10px 0 0 currentColor, 0 10px 0 currentColor, 10px 10px 0 currentColor;
+    }
+    .shelf-view-icon.list::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 5px;
+      width: 22px;
+      height: 3px;
+      background: currentColor;
+      border-radius: 2px;
+      box-shadow: 0 7px 0 currentColor, 0 14px 0 currentColor;
+    }
+    .shelf-choice {
+      min-height: 43px;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+      display: grid;
+      grid-template-columns: 1fr 28px;
       align-items: center;
-      gap: 10px;
-      padding: 0 12px;
+      padding: 0 10px;
       font-family: inherit;
       text-align: left;
     }
-    .shelf-panel-row strong,
     .shelf-choice strong {
-      font-size: 19px;
+      font-size: 17px;
       line-height: 1;
-      font-weight: 780;
-    }
-    .shelf-panel-row span {
-      color: var(--gray-2);
-      font-size: 16px;
-      line-height: 1;
-      font-weight: 700;
-    }
-    .shelf-panel-row::after {
-      content: "";
-      width: 10px;
-      height: 10px;
-      border-right: 3px solid currentColor;
-      border-bottom: 3px solid currentColor;
-      transform: rotate(-45deg);
-    }
-    .shelf-choice {
-      grid-template-columns: 1fr 28px;
+      font-weight: 760;
     }
     .shelf-choice::after {
       content: "";
@@ -3044,10 +3071,6 @@
       border-left: 4px solid transparent;
       border-bottom: 4px solid transparent;
       transform: rotate(-45deg);
-    }
-    .shelf-choice.active {
-      background: var(--ink);
-      color: var(--paper);
     }
     .shelf-choice.active::after {
       border-color: currentColor;
@@ -5226,7 +5249,6 @@
       <div class="shelf-shade" id="shelfShade"></div>
       <aside class="shelf-panel" id="shelfPanel" aria-label="Shelf options">
         <div class="shelf-panel-head">
-          <button type="button" class="shelf-panel-back hidden" id="shelfPanelBack" aria-label="Back"></button>
           <h2 class="shelf-panel-title" id="shelfPanelTitle">Shelf</h2>
           <button type="button" class="shelf-panel-close" id="shelfPanelClose" aria-label="Close shelf options"></button>
         </div>
@@ -6474,7 +6496,6 @@
     const typeUnderlineValue = document.getElementById("typeUnderlineValue");
     const shelfMenu = document.getElementById("shelfMenu");
     const shelfShade = document.getElementById("shelfShade");
-    const shelfPanelBack = document.getElementById("shelfPanelBack");
     const shelfPanelClose = document.getElementById("shelfPanelClose");
     const shelfPanelTitle = document.getElementById("shelfPanelTitle");
     const shelfPanelBody = document.getElementById("shelfPanelBody");
@@ -6484,7 +6505,6 @@
     let shelfFilter = "all";
     let shelfSortMode = "recent";
     let shelfView = "grid";
-    let shelfPanelMode = "home";
     let phoneTransferTasks = baseTransferTasks;
     let phoneTransferPage = 1;
     let wifiNetworks = baseWifiNetworks;
@@ -6734,28 +6754,6 @@
     }
 
     function renderShelfPanel() {
-      const panelTitles = {
-        home: "Shelf",
-        view: "View",
-        filter: "Filter",
-        sort: "Sort"
-      };
-      shelfPanelTitle.textContent = panelTitles[shelfPanelMode];
-      shelfPanelBack.classList.toggle("hidden", shelfPanelMode === "home");
-      if (shelfPanelMode === "home") {
-        shelfPanelBody.innerHTML = `
-          <button type="button" class="shelf-panel-row" data-shelf-panel="view">
-            <strong>View</strong><span>${shelfLabel("view", shelfView)}</span>
-          </button>
-          <button type="button" class="shelf-panel-row" data-shelf-panel="filter">
-            <strong>Filter</strong><span>${shelfLabel("filter", shelfFilter)}</span>
-          </button>
-          <button type="button" class="shelf-panel-row" data-shelf-panel="sort">
-            <strong>Sort</strong><span>${shelfLabel("sort", shelfSortMode)}</span>
-          </button>
-        `;
-        return;
-      }
       const choices = {
         view: [
           ["grid", "Grid"],
@@ -6772,27 +6770,46 @@
           ["progress", "Progress"]
         ]
       };
-      const activeValues = {
-        view: shelfView,
-        filter: shelfFilter,
-        sort: shelfSortMode
-      };
-      shelfPanelBody.innerHTML = choices[shelfPanelMode].map(([value, label]) => `
-        <button type="button" class="shelf-choice ${activeValues[shelfPanelMode] === value ? "active" : ""}" data-shelf-choice="${shelfPanelMode}" data-shelf-value="${value}">
+      shelfPanelTitle.textContent = "Shelf";
+      const viewMarkup = choices.view.map(([value, label]) => `
+        <button type="button" class="shelf-view-choice ${shelfView === value ? "active" : ""}" data-shelf-choice="view" data-shelf-value="${value}" aria-label="${label} view">
+          <span class="shelf-view-icon ${value}" aria-hidden="true"></span>
+          <span>${label}</span>
+        </button>
+      `).join("");
+      const filterMarkup = choices.filter.map(([value, label]) => `
+        <button type="button" class="shelf-choice ${shelfFilter === value ? "active" : ""}" data-shelf-choice="filter" data-shelf-value="${value}">
           <strong>${label}</strong>
         </button>
       `).join("");
+      const sortMarkup = choices.sort.map(([value, label]) => `
+        <button type="button" class="shelf-choice ${shelfSortMode === value ? "active" : ""}" data-shelf-choice="sort" data-shelf-value="${value}">
+          <strong>${label}</strong>
+        </button>
+      `).join("");
+      shelfPanelBody.innerHTML = `
+        <section class="shelf-section">
+          <h3 class="shelf-section-title">View</h3>
+          <div class="shelf-view-options">${viewMarkup}</div>
+        </section>
+        <section class="shelf-section">
+          <h3 class="shelf-section-title">Filter</h3>
+          ${filterMarkup}
+        </section>
+        <section class="shelf-section">
+          <h3 class="shelf-section-title">Sort</h3>
+          ${sortMarkup}
+        </section>
+      `;
     }
 
-    function openShelfPanel(mode = "home") {
-      shelfPanelMode = mode;
+    function openShelfPanel() {
       renderShelfPanel();
       booksScreen.classList.add("shelf-panel-open");
     }
 
     function closeShelfPanel() {
       booksScreen.classList.remove("shelf-panel-open");
-      shelfPanelMode = "home";
     }
 
     function renderShelf() {
@@ -10111,17 +10128,7 @@
     shelfMenu.addEventListener("click", () => openShelfPanel());
     shelfShade.addEventListener("click", closeShelfPanel);
     shelfPanelClose.addEventListener("click", closeShelfPanel);
-    shelfPanelBack.addEventListener("click", () => {
-      shelfPanelMode = "home";
-      renderShelfPanel();
-    });
     shelfPanelBody.addEventListener("click", (event) => {
-      const panelRow = event.target.closest("[data-shelf-panel]");
-      if (panelRow) {
-        shelfPanelMode = panelRow.dataset.shelfPanel;
-        renderShelfPanel();
-        return;
-      }
       const choice = event.target.closest("[data-shelf-choice]");
       if (!choice) return;
       const group = choice.dataset.shelfChoice;
@@ -10135,7 +10142,6 @@
       }
       shelfPage = 1;
       renderShelf();
-      shelfPanelMode = "home";
       renderShelfPanel();
     });
     prevShelfPage.addEventListener("click", () => {
