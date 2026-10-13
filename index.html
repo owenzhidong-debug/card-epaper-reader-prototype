@@ -2804,8 +2804,9 @@
     .books-screen {
       height: 100%;
       display: grid;
-      grid-template-rows: 42px 47px 92px 547px 72px;
+      grid-template-rows: 42px 47px 639px 72px;
       background: var(--paper);
+      position: relative;
     }
     .books-head {
       display: grid;
@@ -2850,144 +2851,213 @@
       line-height: 1;
       font-weight: 500;
     }
-    .books-toolbar {
-      display: grid;
-      grid-template-rows: 38px 42px;
-      gap: 6px;
-      padding: 0 28px 8px;
-      border-bottom: 2px solid var(--ink);
+    .books-title-row {
+      display: inline-grid;
+      grid-template-columns: auto 36px;
+      align-items: center;
+      gap: 12px;
+      justify-self: center;
     }
-    .shelf-filters {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border: 2px solid var(--ink);
-      border-radius: 8px;
-      overflow: hidden;
-      background: var(--white);
-    }
-    .shelf-filter {
+    .shelf-menu-button {
+      width: 36px;
+      height: 36px;
       border: 0;
-      border-right: 2px solid var(--ink);
       background: transparent;
       color: var(--ink);
-      font-family: inherit;
-      font-size: 17px;
-      line-height: 1;
-      font-weight: 760;
+      position: relative;
       padding: 0;
     }
-    .shelf-filter:last-child {
-      border-right: 0;
+    .shelf-menu-button::before,
+    .shelf-menu-button::after,
+    .shelf-menu-button span {
+      content: "";
+      position: absolute;
+      left: 4px;
+      width: 28px;
+      height: 4px;
+      background: currentColor;
+      border-radius: 2px;
     }
-    .shelf-filter.active,
-    .view-button.active {
-      background: var(--ink);
-      color: var(--paper);
+    .shelf-menu-button::before {
+      top: 9px;
     }
-    .shelf-actions {
+    .shelf-menu-button span {
+      top: 16px;
+    }
+    .shelf-menu-button::after {
+      top: 23px;
+    }
+    .shelf-menu-button i {
+      position: absolute;
+      left: 9px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 2px solid currentColor;
+      z-index: 1;
+    }
+    .shelf-menu-button i:first-of-type {
+      top: 6px;
+      left: 19px;
+    }
+    .shelf-menu-button i:last-of-type {
+      top: 20px;
+    }
+    .shelf-shade {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 89px;
+      bottom: 72px;
+      background: rgba(0, 0, 0, .18);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .16s steps(2, end);
+      z-index: 20;
+    }
+    .shelf-panel {
+      position: absolute;
+      top: 89px;
+      right: 0;
+      bottom: 72px;
+      width: 214px;
+      border-left: 3px solid var(--ink);
+      background: var(--paper);
+      transform: translateX(100%);
+      transition: transform .16s steps(2, end);
+      z-index: 21;
       display: grid;
-      grid-template-columns: 1fr 96px;
-      gap: 12px;
-      align-items: center;
+      grid-template-rows: 58px 1fr;
+      box-shadow: -1px 0 0 var(--gray-3);
     }
-    .sort-button {
-      height: 38px;
+    .books-screen.shelf-panel-open .shelf-shade {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .books-screen.shelf-panel-open .shelf-panel {
+      transform: translateX(0);
+    }
+    .shelf-panel-head {
+      display: grid;
+      grid-template-columns: 40px 1fr 40px;
+      align-items: center;
+      padding: 0 14px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .shelf-panel-back,
+    .shelf-panel-close {
+      width: 40px;
+      height: 40px;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      position: relative;
+      padding: 0;
+    }
+    .shelf-panel-back::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 12px;
+      width: 14px;
+      height: 14px;
+      border-left: 4px solid currentColor;
+      border-bottom: 4px solid currentColor;
+      transform: rotate(45deg);
+    }
+    .shelf-panel-close::before,
+    .shelf-panel-close::after {
+      content: "";
+      position: absolute;
+      left: 9px;
+      top: 18px;
+      width: 24px;
+      height: 4px;
+      background: currentColor;
+      border-radius: 2px;
+    }
+    .shelf-panel-close::before {
+      transform: rotate(45deg);
+    }
+    .shelf-panel-close::after {
+      transform: rotate(-45deg);
+    }
+    .shelf-panel-back.hidden {
+      visibility: hidden;
+    }
+    .shelf-panel-title {
+      margin: 0;
+      text-align: center;
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 760;
+    }
+    .shelf-panel-body {
+      padding: 16px 14px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+    .shelf-panel-row,
+    .shelf-choice {
+      min-height: 62px;
       border: 2px solid var(--ink);
       border-radius: 8px;
       background: var(--paper);
       color: var(--ink);
       display: grid;
-      grid-template-columns: 34px 1fr 28px;
+      grid-template-columns: 1fr auto 20px;
       align-items: center;
-      padding: 0 10px;
+      gap: 10px;
+      padding: 0 12px;
       font-family: inherit;
-      font-size: 18px;
-      line-height: 1;
-      font-weight: 760;
       text-align: left;
     }
-    .sort-icon,
-    .sort-arrow {
-      position: relative;
-      width: 22px;
-      height: 22px;
-      display: block;
+    .shelf-panel-row strong,
+    .shelf-choice strong {
+      font-size: 19px;
+      line-height: 1;
+      font-weight: 780;
     }
-    .sort-icon::before,
-    .sort-icon::after {
+    .shelf-panel-row span {
+      color: var(--gray-2);
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 700;
+    }
+    .shelf-panel-row::after {
       content: "";
-      position: absolute;
-      left: 2px;
-      height: 3px;
-      background: currentColor;
-      border-radius: 2px;
-    }
-    .sort-icon::before {
-      top: 5px;
-      width: 18px;
-    }
-    .sort-icon::after {
-      top: 14px;
-      width: 11px;
-    }
-    .sort-arrow::before {
-      content: "";
-      position: absolute;
-      left: 7px;
-      top: 4px;
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
       border-right: 3px solid currentColor;
       border-bottom: 3px solid currentColor;
-      transform: rotate(45deg);
+      transform: rotate(-45deg);
     }
-    .view-toggle {
-      height: 38px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border: 2px solid var(--ink);
-      border-radius: 8px;
-      overflow: hidden;
-      background: var(--white);
+    .shelf-choice {
+      grid-template-columns: 1fr 28px;
     }
-    .view-button {
-      border: 0;
-      border-right: 2px solid var(--ink);
-      background: transparent;
-      color: var(--ink);
-      position: relative;
-      padding: 0;
-    }
-    .view-button:last-child {
-      border-right: 0;
-    }
-    .view-button.grid::before {
+    .shelf-choice::after {
       content: "";
-      position: absolute;
-      left: 14px;
-      top: 9px;
-      width: 7px;
-      height: 7px;
-      background: currentColor;
-      box-shadow: 11px 0 0 currentColor, 0 11px 0 currentColor, 11px 11px 0 currentColor;
+      width: 18px;
+      height: 10px;
+      border-left: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+      transform: rotate(-45deg);
     }
-    .view-button.list::before {
-      content: "";
-      position: absolute;
-      left: 12px;
-      top: 10px;
-      width: 22px;
-      height: 3px;
-      background: currentColor;
-      box-shadow: 0 8px 0 currentColor, 0 16px 0 currentColor;
-      border-radius: 2px;
+    .shelf-choice.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .shelf-choice.active::after {
+      border-color: currentColor;
     }
     .books-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       column-gap: 25px;
       row-gap: 10px;
-      padding: 14px 28px 0;
+      padding: 0 28px;
       align-content: start;
     }
     .books-grid.list-view {
@@ -5144,28 +5214,24 @@
       </header>
       <div class="books-head">
         <button type="button" class="back-button" id="backHome" aria-label="Back"></button>
-        <h1 class="books-title">Books</h1>
+        <div class="books-title-row">
+          <h1 class="books-title">Books</h1>
+          <button type="button" class="shelf-menu-button" id="shelfMenu" aria-label="Shelf options">
+            <span></span><i></i><i></i>
+          </button>
+        </div>
         <div></div>
       </div>
-      <div class="books-toolbar" aria-label="Bookshelf tools">
-        <div class="shelf-filters" role="group" aria-label="Filter books">
-          <button type="button" class="shelf-filter active" data-shelf-filter="all">All</button>
-          <button type="button" class="shelf-filter" data-shelf-filter="reading">Reading</button>
-          <button type="button" class="shelf-filter" data-shelf-filter="done">Done</button>
-        </div>
-        <div class="shelf-actions">
-          <button type="button" class="sort-button" id="shelfSort" aria-label="Sort books">
-            <span class="sort-icon" aria-hidden="true"></span>
-            <span id="shelfSortLabel">Recent</span>
-            <span class="sort-arrow" aria-hidden="true"></span>
-          </button>
-          <div class="view-toggle" role="group" aria-label="Switch view">
-            <button type="button" class="view-button grid active" data-shelf-view="grid" aria-label="Grid view"></button>
-            <button type="button" class="view-button list" data-shelf-view="list" aria-label="List view"></button>
-          </div>
-        </div>
-      </div>
       <div class="books-grid" id="booksGrid"></div>
+      <div class="shelf-shade" id="shelfShade"></div>
+      <aside class="shelf-panel" id="shelfPanel" aria-label="Shelf options">
+        <div class="shelf-panel-head">
+          <button type="button" class="shelf-panel-back hidden" id="shelfPanelBack" aria-label="Back"></button>
+          <h2 class="shelf-panel-title" id="shelfPanelTitle">Shelf</h2>
+          <button type="button" class="shelf-panel-close" id="shelfPanelClose" aria-label="Close shelf options"></button>
+        </div>
+        <div class="shelf-panel-body" id="shelfPanelBody"></div>
+      </aside>
       <footer class="books-pager">
         <button type="button" class="pager-button prev" id="prevShelfPage" aria-label="Previous page"></button>
         <div class="page-count" id="shelfPageCount"></div>
@@ -6406,16 +6472,19 @@
     const paragraphValue = document.getElementById("paragraphValue");
     const marginValue = document.getElementById("marginValue");
     const typeUnderlineValue = document.getElementById("typeUnderlineValue");
-    const shelfSort = document.getElementById("shelfSort");
-    const shelfSortLabel = document.getElementById("shelfSortLabel");
-    const shelfFilterButtons = Array.from(document.querySelectorAll("[data-shelf-filter]"));
-    const shelfViewButtons = Array.from(document.querySelectorAll("[data-shelf-view]"));
+    const shelfMenu = document.getElementById("shelfMenu");
+    const shelfShade = document.getElementById("shelfShade");
+    const shelfPanelBack = document.getElementById("shelfPanelBack");
+    const shelfPanelClose = document.getElementById("shelfPanelClose");
+    const shelfPanelTitle = document.getElementById("shelfPanelTitle");
+    const shelfPanelBody = document.getElementById("shelfPanelBody");
 
     let books = allBooks.slice(0, 10);
     let shelfPage = 1;
     let shelfFilter = "all";
     let shelfSortMode = "recent";
     let shelfView = "grid";
+    let shelfPanelMode = "home";
     let phoneTransferTasks = baseTransferTasks;
     let phoneTransferPage = 1;
     let wifiNetworks = baseWifiNetworks;
@@ -6644,23 +6713,90 @@
       return Math.max(1, Math.ceil(getShelfVisibleBooks().length / getShelfPageSize()));
     }
 
-    function renderShelfTools() {
-      shelfFilterButtons.forEach((button) => {
-        button.classList.toggle("active", button.dataset.shelfFilter === shelfFilter);
-      });
-      shelfViewButtons.forEach((button) => {
-        button.classList.toggle("active", button.dataset.shelfView === shelfView);
-      });
+    function shelfLabel(group, value) {
       const sortLabels = {
         recent: "Recent",
         progress: "Progress",
         title: "Title"
       };
-      shelfSortLabel.textContent = sortLabels[shelfSortMode];
+      const filterLabels = {
+        all: "All",
+        reading: "Reading",
+        done: "Finished"
+      };
+      const viewLabels = {
+        grid: "Grid",
+        list: "List"
+      };
+      if (group === "sort") return sortLabels[value] || value;
+      if (group === "filter") return filterLabels[value] || value;
+      return viewLabels[value] || value;
+    }
+
+    function renderShelfPanel() {
+      const panelTitles = {
+        home: "Shelf",
+        view: "View",
+        filter: "Filter",
+        sort: "Sort"
+      };
+      shelfPanelTitle.textContent = panelTitles[shelfPanelMode];
+      shelfPanelBack.classList.toggle("hidden", shelfPanelMode === "home");
+      if (shelfPanelMode === "home") {
+        shelfPanelBody.innerHTML = `
+          <button type="button" class="shelf-panel-row" data-shelf-panel="view">
+            <strong>View</strong><span>${shelfLabel("view", shelfView)}</span>
+          </button>
+          <button type="button" class="shelf-panel-row" data-shelf-panel="filter">
+            <strong>Filter</strong><span>${shelfLabel("filter", shelfFilter)}</span>
+          </button>
+          <button type="button" class="shelf-panel-row" data-shelf-panel="sort">
+            <strong>Sort</strong><span>${shelfLabel("sort", shelfSortMode)}</span>
+          </button>
+        `;
+        return;
+      }
+      const choices = {
+        view: [
+          ["grid", "Grid"],
+          ["list", "List"]
+        ],
+        filter: [
+          ["all", "All"],
+          ["reading", "Reading"],
+          ["done", "Finished"]
+        ],
+        sort: [
+          ["recent", "Recent"],
+          ["title", "Title"],
+          ["progress", "Progress"]
+        ]
+      };
+      const activeValues = {
+        view: shelfView,
+        filter: shelfFilter,
+        sort: shelfSortMode
+      };
+      shelfPanelBody.innerHTML = choices[shelfPanelMode].map(([value, label]) => `
+        <button type="button" class="shelf-choice ${activeValues[shelfPanelMode] === value ? "active" : ""}" data-shelf-choice="${shelfPanelMode}" data-shelf-value="${value}">
+          <strong>${label}</strong>
+        </button>
+      `).join("");
+    }
+
+    function openShelfPanel(mode = "home") {
+      shelfPanelMode = mode;
+      renderShelfPanel();
+      booksScreen.classList.add("shelf-panel-open");
+    }
+
+    function closeShelfPanel() {
+      booksScreen.classList.remove("shelf-panel-open");
+      shelfPanelMode = "home";
     }
 
     function renderShelf() {
-      renderShelfTools();
+      renderShelfPanel();
       const pageSize = getShelfPageSize();
       const visibleBooks = getShelfVisibleBooks();
       const totalPages = Math.max(1, Math.ceil(visibleBooks.length / pageSize));
@@ -9972,25 +10108,35 @@
       phoneTransferPage += 1;
       renderPhoneTransfers();
     });
-    shelfFilterButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        shelfFilter = button.dataset.shelfFilter;
-        shelfPage = 1;
-        renderShelf();
-      });
+    shelfMenu.addEventListener("click", () => openShelfPanel());
+    shelfShade.addEventListener("click", closeShelfPanel);
+    shelfPanelClose.addEventListener("click", closeShelfPanel);
+    shelfPanelBack.addEventListener("click", () => {
+      shelfPanelMode = "home";
+      renderShelfPanel();
     });
-    shelfSort.addEventListener("click", () => {
-      const sortModes = ["recent", "progress", "title"];
-      shelfSortMode = sortModes[(sortModes.indexOf(shelfSortMode) + 1) % sortModes.length];
+    shelfPanelBody.addEventListener("click", (event) => {
+      const panelRow = event.target.closest("[data-shelf-panel]");
+      if (panelRow) {
+        shelfPanelMode = panelRow.dataset.shelfPanel;
+        renderShelfPanel();
+        return;
+      }
+      const choice = event.target.closest("[data-shelf-choice]");
+      if (!choice) return;
+      const group = choice.dataset.shelfChoice;
+      const value = choice.dataset.shelfValue;
+      if (group === "view") {
+        shelfView = value;
+      } else if (group === "filter") {
+        shelfFilter = value;
+      } else if (group === "sort") {
+        shelfSortMode = value;
+      }
       shelfPage = 1;
       renderShelf();
-    });
-    shelfViewButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        shelfView = button.dataset.shelfView;
-        shelfPage = 1;
-        renderShelf();
-      });
+      shelfPanelMode = "home";
+      renderShelfPanel();
     });
     prevShelfPage.addEventListener("click", () => {
       if (shelfPage <= 1) return;
