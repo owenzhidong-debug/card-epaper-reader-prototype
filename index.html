@@ -2804,7 +2804,7 @@
     .books-screen {
       height: 100%;
       display: grid;
-      grid-template-rows: 42px 47px 639px 72px;
+      grid-template-rows: 42px 47px 92px 547px 72px;
       background: var(--paper);
     }
     .books-head {
@@ -2850,13 +2850,159 @@
       line-height: 1;
       font-weight: 500;
     }
+    .books-toolbar {
+      display: grid;
+      grid-template-rows: 38px 42px;
+      gap: 6px;
+      padding: 0 28px 8px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .shelf-filters {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--white);
+    }
+    .shelf-filter {
+      border: 0;
+      border-right: 2px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 17px;
+      line-height: 1;
+      font-weight: 760;
+      padding: 0;
+    }
+    .shelf-filter:last-child {
+      border-right: 0;
+    }
+    .shelf-filter.active,
+    .view-button.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .shelf-actions {
+      display: grid;
+      grid-template-columns: 1fr 96px;
+      gap: 12px;
+      align-items: center;
+    }
+    .sort-button {
+      height: 38px;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+      display: grid;
+      grid-template-columns: 34px 1fr 28px;
+      align-items: center;
+      padding: 0 10px;
+      font-family: inherit;
+      font-size: 18px;
+      line-height: 1;
+      font-weight: 760;
+      text-align: left;
+    }
+    .sort-icon,
+    .sort-arrow {
+      position: relative;
+      width: 22px;
+      height: 22px;
+      display: block;
+    }
+    .sort-icon::before,
+    .sort-icon::after {
+      content: "";
+      position: absolute;
+      left: 2px;
+      height: 3px;
+      background: currentColor;
+      border-radius: 2px;
+    }
+    .sort-icon::before {
+      top: 5px;
+      width: 18px;
+    }
+    .sort-icon::after {
+      top: 14px;
+      width: 11px;
+    }
+    .sort-arrow::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 4px;
+      width: 8px;
+      height: 8px;
+      border-right: 3px solid currentColor;
+      border-bottom: 3px solid currentColor;
+      transform: rotate(45deg);
+    }
+    .view-toggle {
+      height: 38px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--white);
+    }
+    .view-button {
+      border: 0;
+      border-right: 2px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      position: relative;
+      padding: 0;
+    }
+    .view-button:last-child {
+      border-right: 0;
+    }
+    .view-button.grid::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 9px;
+      width: 7px;
+      height: 7px;
+      background: currentColor;
+      box-shadow: 11px 0 0 currentColor, 0 11px 0 currentColor, 11px 11px 0 currentColor;
+    }
+    .view-button.list::before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      width: 22px;
+      height: 3px;
+      background: currentColor;
+      box-shadow: 0 8px 0 currentColor, 0 16px 0 currentColor;
+      border-radius: 2px;
+    }
     .books-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       column-gap: 25px;
       row-gap: 10px;
-      padding: 0 28px;
+      padding: 14px 28px 0;
       align-content: start;
+    }
+    .books-grid.list-view {
+      grid-template-columns: 1fr;
+      row-gap: 12px;
+      padding-top: 16px;
+    }
+    .books-grid.empty {
+      display: grid;
+      place-items: center;
+      padding: 0 48px;
+      text-align: center;
+      font-size: 25px;
+      line-height: 1.2;
+      font-weight: 760;
     }
     .shelf-book {
       border: 0;
@@ -2865,6 +3011,16 @@
       text-align: left;
       color: var(--ink);
       min-width: 0;
+      font-family: inherit;
+    }
+    .list-view .shelf-book {
+      min-height: 94px;
+      display: grid;
+      grid-template-columns: 64px 1fr 58px;
+      gap: 14px;
+      align-items: center;
+      border-bottom: 2px solid var(--gray-3);
+      padding-bottom: 12px;
     }
     .apps-screen {
       height: 100%;
@@ -4058,6 +4214,12 @@
       background: #e8e8e8;
       margin-bottom: 7px;
     }
+    .list-view .shelf-cover {
+      width: 64px;
+      height: 88px;
+      margin-bottom: 0;
+      border-radius: 4px;
+    }
     .shelf-cover img {
       width: 100%;
       height: 100%;
@@ -4070,6 +4232,11 @@
       letter-spacing: 1px;
       padding: 12px;
     }
+    .list-view .shelf-cover .fallback-cover {
+      font-size: 11px;
+      letter-spacing: 0;
+      padding: 6px;
+    }
     .shelf-name {
       width: 124px;
       display: block;
@@ -4079,6 +4246,46 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: clip;
+    }
+    .shelf-info {
+      min-width: 0;
+      display: grid;
+      gap: 8px;
+    }
+    .shelf-author {
+      display: block;
+      color: var(--gray-2);
+      font-size: 17px;
+      line-height: 1;
+      font-weight: 650;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .shelf-progress-line {
+      height: 4px;
+      width: 100%;
+      background: var(--gray-4);
+      position: relative;
+      overflow: hidden;
+    }
+    .shelf-progress-line span {
+      display: block;
+      height: 100%;
+      background: var(--ink);
+    }
+    .shelf-percent {
+      justify-self: end;
+      font-size: 18px;
+      line-height: 1;
+      font-weight: 780;
+      font-variant-numeric: tabular-nums;
+    }
+    .list-view .shelf-name {
+      width: auto;
+      font-size: 22px;
+      line-height: 1.05;
+      text-overflow: ellipsis;
     }
     .books-pager {
       border-top: 4px solid var(--ink);
@@ -4939,6 +5146,24 @@
         <button type="button" class="back-button" id="backHome" aria-label="Back"></button>
         <h1 class="books-title">Books</h1>
         <div></div>
+      </div>
+      <div class="books-toolbar" aria-label="Bookshelf tools">
+        <div class="shelf-filters" role="group" aria-label="Filter books">
+          <button type="button" class="shelf-filter active" data-shelf-filter="all">All</button>
+          <button type="button" class="shelf-filter" data-shelf-filter="reading">Reading</button>
+          <button type="button" class="shelf-filter" data-shelf-filter="done">Done</button>
+        </div>
+        <div class="shelf-actions">
+          <button type="button" class="sort-button" id="shelfSort" aria-label="Sort books">
+            <span class="sort-icon" aria-hidden="true"></span>
+            <span id="shelfSortLabel">Recent</span>
+            <span class="sort-arrow" aria-hidden="true"></span>
+          </button>
+          <div class="view-toggle" role="group" aria-label="Switch view">
+            <button type="button" class="view-button grid active" data-shelf-view="grid" aria-label="Grid view"></button>
+            <button type="button" class="view-button list" data-shelf-view="list" aria-label="List view"></button>
+          </div>
+        </div>
       </div>
       <div class="books-grid" id="booksGrid"></div>
       <footer class="books-pager">
@@ -5834,13 +6059,29 @@
       { title: "Frankenstein", author: "Mary Shelley", progress: 73, cover: null, fallback: "FRANKEN\nSTEIN" },
       { title: "The Trial", author: "Franz Kafka", progress: 36, cover: null, fallback: "THE\nTRIAL" }
     ];
-    const shelfTotalPages = 15;
-    let shelfBooks = Array.from({ length: shelfTotalPages * 9 }, (_, itemIndex) => {
+    const shelfItemCount = 12;
+    const shelfSamples = [
+      "Book Titleillllll...",
+      "Jane Eyre",
+      "Never Where",
+      "The Shadow",
+      "It Follows",
+      "The Night Walk",
+      "Moby-Dick",
+      "Walden",
+      "Frankenstein",
+      "The Trial"
+    ];
+    let shelfBooks = Array.from({ length: shelfItemCount }, (_, itemIndex) => {
       const source = allBooks[itemIndex % allBooks.length];
+      const progress = [12, 76, 54, 42, 18, 29, 85, 51, 73, 36][itemIndex % 10];
       return {
         ...source,
-        title: "Pride and Prea",
-        shelfTitle: "Pride and Prea"
+        progress,
+        id: `shelf-${itemIndex}`,
+        shelfTitle: shelfSamples[itemIndex % shelfSamples.length],
+        addedOrder: itemIndex,
+        status: progress >= 80 ? "done" : "reading"
       };
     });
     const baseTransferTasks = [
@@ -6165,9 +6406,16 @@
     const paragraphValue = document.getElementById("paragraphValue");
     const marginValue = document.getElementById("marginValue");
     const typeUnderlineValue = document.getElementById("typeUnderlineValue");
+    const shelfSort = document.getElementById("shelfSort");
+    const shelfSortLabel = document.getElementById("shelfSortLabel");
+    const shelfFilterButtons = Array.from(document.querySelectorAll("[data-shelf-filter]"));
+    const shelfViewButtons = Array.from(document.querySelectorAll("[data-shelf-view]"));
 
     let books = allBooks.slice(0, 10);
-    let shelfPage = 2;
+    let shelfPage = 1;
+    let shelfFilter = "all";
+    let shelfSortMode = "recent";
+    let shelfView = "grid";
     let phoneTransferTasks = baseTransferTasks;
     let phoneTransferPage = 1;
     let wifiNetworks = baseWifiNetworks;
@@ -6377,18 +6625,74 @@
       node.innerHTML = coverContent(book);
     }
 
+    function getShelfVisibleBooks() {
+      return shelfBooks
+        .map((book, shelfIndex) => ({ ...book, shelfIndex }))
+        .filter((book) => shelfFilter === "all" || book.status === shelfFilter)
+        .sort((a, b) => {
+          if (shelfSortMode === "title") return a.shelfTitle.localeCompare(b.shelfTitle);
+          if (shelfSortMode === "progress") return b.progress - a.progress;
+          return b.addedOrder - a.addedOrder;
+        });
+    }
+
+    function getShelfPageSize() {
+      return shelfView === "list" ? 5 : 6;
+    }
+
+    function getShelfPageTotal() {
+      return Math.max(1, Math.ceil(getShelfVisibleBooks().length / getShelfPageSize()));
+    }
+
+    function renderShelfTools() {
+      shelfFilterButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.shelfFilter === shelfFilter);
+      });
+      shelfViewButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.shelfView === shelfView);
+      });
+      const sortLabels = {
+        recent: "Recent",
+        progress: "Progress",
+        title: "Title"
+      };
+      shelfSortLabel.textContent = sortLabels[shelfSortMode];
+    }
+
     function renderShelf() {
-      const start = (shelfPage - 1) * 9;
-      const pageBooks = shelfBooks.slice(start, start + 9);
-      booksGrid.innerHTML = pageBooks.map((book, itemIndex) => `
-        <button type="button" class="shelf-book" data-shelf-index="${start + itemIndex}">
-          <div class="shelf-cover">${coverContent(book)}</div>
-          <span class="shelf-name">${book.shelfTitle}</span>
-        </button>
-      `).join("");
-      shelfPageCount.textContent = `${shelfPage} / ${shelfTotalPages}`;
+      renderShelfTools();
+      const pageSize = getShelfPageSize();
+      const visibleBooks = getShelfVisibleBooks();
+      const totalPages = Math.max(1, Math.ceil(visibleBooks.length / pageSize));
+      shelfPage = Math.min(shelfPage, totalPages);
+      const start = (shelfPage - 1) * pageSize;
+      const pageBooks = visibleBooks.slice(start, start + pageSize);
+      booksGrid.className = `books-grid ${shelfView === "list" ? "list-view" : ""} ${pageBooks.length ? "" : "empty"}`;
+      booksGrid.innerHTML = pageBooks.length ? pageBooks.map((book) => {
+        if (shelfView === "list") {
+          return `
+            <button type="button" class="shelf-book" data-shelf-index="${book.shelfIndex}">
+              <div class="shelf-cover">${coverContent(book)}</div>
+              <span class="shelf-info">
+                <span class="shelf-name">${book.shelfTitle}</span>
+                <span class="shelf-author">${book.author}</span>
+                <span class="shelf-progress-line"><span style="width: ${book.progress}%"></span></span>
+              </span>
+              <span class="shelf-percent">${book.progress}%</span>
+            </button>
+          `;
+        }
+        return `
+          <button type="button" class="shelf-book" data-shelf-index="${book.shelfIndex}">
+            <div class="shelf-cover">${coverContent(book)}</div>
+            <span class="shelf-name">${book.shelfTitle}</span>
+            <span class="shelf-author">${book.progress}%</span>
+          </button>
+        `;
+      }).join("") : "No books here";
+      shelfPageCount.textContent = `${shelfPage} / ${totalPages}`;
       prevShelfPage.disabled = shelfPage === 1;
-      nextShelfPage.disabled = shelfPage === shelfTotalPages;
+      nextShelfPage.disabled = shelfPage === totalPages;
     }
 
     function readerPageText(page) {
@@ -8985,7 +9289,7 @@
       if (deleteMode === "shelf") {
         if (selectedShelfIndex === null) return;
         shelfBooks.splice(selectedShelfIndex, 1);
-        const maxPage = Math.max(1, Math.ceil(shelfBooks.length / 9));
+        const maxPage = getShelfPageTotal();
         shelfPage = Math.min(shelfPage, maxPage);
         selectedShelfIndex = null;
         closeDeleteDialog();
@@ -9668,13 +9972,33 @@
       phoneTransferPage += 1;
       renderPhoneTransfers();
     });
+    shelfFilterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        shelfFilter = button.dataset.shelfFilter;
+        shelfPage = 1;
+        renderShelf();
+      });
+    });
+    shelfSort.addEventListener("click", () => {
+      const sortModes = ["recent", "progress", "title"];
+      shelfSortMode = sortModes[(sortModes.indexOf(shelfSortMode) + 1) % sortModes.length];
+      shelfPage = 1;
+      renderShelf();
+    });
+    shelfViewButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        shelfView = button.dataset.shelfView;
+        shelfPage = 1;
+        renderShelf();
+      });
+    });
     prevShelfPage.addEventListener("click", () => {
       if (shelfPage <= 1) return;
       shelfPage -= 1;
       renderShelf();
     });
     nextShelfPage.addEventListener("click", () => {
-      if (shelfPage >= shelfTotalPages) return;
+      if (shelfPage >= getShelfPageTotal()) return;
       shelfPage += 1;
       renderShelf();
     });
